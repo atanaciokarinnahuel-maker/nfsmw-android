@@ -93,22 +93,51 @@ final class GameOptions {
             new Option("audio_buffer", "Búfer de audio", "audio_sdl_bomba_cola", "12",
                     new String[] {"12", "20"},
                     new String[] {"Normal · 64 ms", "Grande · 107 ms, si hay cortes"}),
-            new Option("filter", "Filtro de imagen", "nfsmw_posproceso", "apagado",
-                    new String[] {"apagado", "cine", "vivo", "calido", "frio", "sepia", "noir", "crt"},
+            // "personalizado" uses the colour controls right below (nfsmw_ajustes_graficos.cpp, LeerPosproceso).
+            // It is the default here: the starting look is light, cool and without the game's yellow tint.
+            new Option("filter", "Filtro de imagen", "nfsmw_posproceso", "personalizado",
+                    new String[] {"apagado", "cine", "vivo", "calido", "frio", "sepia", "noir", "crt",
+                            "personalizado"},
                     new String[] {"Sin filtro", "Cine", "Vivo", "Cálido", "Frío", "Sepia", "Blanco y negro",
-                            "CRT"}),
-            // The game's own yellow tint, desaturation and vignette (nfsmw_ajustes_graficos.cpp). The "Vivo"
-            // filter raises saturation, so with the original tint the image turns very yellow.
-            new Option("visual_tint", "Tono amarillo del juego", "nfsmw_tratamiento_visual", "original",
+                            "CRT", "Personalizado · usa los ajustes de color"}),
+            // Colour controls of "personalizado". The values are exactly the ones each cvar allows (including
+            // the "+" sign where the cvar spells it that way). Brightness is left out on purpose: it is added
+            // to every pixel and would lift the blacks. Gamma and contrast keep black at 0 and white at 1.
+            new Option("color_gamma", "Claridad (gamma)", "nfsmw_posproceso_gamma", "1.20",
+                    new String[] {"0.70", "0.80", "0.90", "1.00", "1.10", "1.20", "1.30"},
+                    new String[] {"0.70 · más oscuro", "0.80", "0.90", "1.00 · original", "1.10",
+                            "1.20 · claro", "1.30 · muy claro"}),
+            new Option("color_contrast", "Contraste", "nfsmw_posproceso_contraste", "1.10",
+                    new String[] {"0.70", "0.80", "0.90", "1.00", "1.10", "1.20", "1.30", "1.40"},
+                    new String[] {"0.70 · bajo", "0.80", "0.90", "1.00 · original", "1.10", "1.20", "1.30",
+                            "1.40 · alto"}),
+            new Option("color_saturation", "Saturación", "nfsmw_posproceso_saturacion", "1.20",
+                    new String[] {"0.00", "0.25", "0.50", "0.75", "1.00", "1.10", "1.20", "1.35", "1.50", "2.00"},
+                    new String[] {"0.00 · blanco y negro", "0.25", "0.50", "0.75", "1.00 · original", "1.10",
+                            "1.20", "1.35", "1.50", "2.00 · muy intensa"}),
+            new Option("color_vibrance", "Vibración (realza colores apagados)", "nfsmw_posproceso_vibracion",
+                    "+0.25",
+                    new String[] {"-0.50", "-0.25", "0.00", "+0.15", "+0.25", "+0.50", "+0.75", "+1.00"},
+                    new String[] {"-0.50", "-0.25", "0.00 · sin cambio", "+0.15", "+0.25", "+0.50", "+0.75",
+                            "+1.00 · máxima"}),
+            // Negative = cooler (more blue, less red), which counters the yellow cast. With a cool temperature,
+            // keep the contrast at 1.10 or more so the blacks stay at 0.
+            new Option("color_temperature", "Temperatura", "nfsmw_posproceso_temperatura", "-0.25",
+                    new String[] {"-1.00", "-0.75", "-0.50", "-0.25", "0.00", "+0.25", "+0.50", "+0.75", "+1.00"},
+                    new String[] {"-1.00 · muy fría", "-0.75", "-0.50", "-0.25 · algo fría", "0.00 · neutra",
+                            "+0.25", "+0.50", "+0.75", "+1.00 · muy cálida"}),
+            // The game's own yellow tint, desaturation and vignette (nfsmw_ajustes_graficos.cpp). Off by
+            // default here: the colour controls above would otherwise sit on top of that yellow cast.
+            new Option("visual_tint", "Tono amarillo del juego", "nfsmw_tratamiento_visual", "apagado",
                     new String[] {"original", "suave", "apagado"},
                     new String[] {"Original · como la Xbox 360", "Suave · mitad de fuerza", "Apagado · sin tinte"}),
             // Final presentation pass of the SDK (needs REXGLUE_UI_CAS_FSR1, which the Android build turns on).
             // CAS sharpens when the game image has the screen's size and resamples when it does not; FSR 1.0
             // upscales with EASU and sharpens with RCAS.
-            new Option("sharpen", "Nitidez y escalado", "present_effect", "bilinear",
+            new Option("sharpen", "Nitidez y escalado", "present_effect", "cas",
                     new String[] {"bilinear", "cas", "fsr"},
                     new String[] {"Normal", "AMD CAS · nitidez", "AMD FSR 1.0 · escalado y nitidez"}),
-            new Option("sharpen_strength", "Fuerza de nitidez CAS", "present_cas_additional_sharpness", "0.0",
+            new Option("sharpen_strength", "Fuerza de nitidez CAS", "present_cas_additional_sharpness", "0.3",
                     new String[] {"0.0", "0.3", "0.6", "1.0"},
                     new String[] {"Estándar", "Media", "Alta", "Máxima"}),
     };
