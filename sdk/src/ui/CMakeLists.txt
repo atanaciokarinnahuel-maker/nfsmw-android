@@ -145,6 +145,12 @@ if(REXGLUE_FIDELITYFX_SOURCE_DIR AND EXISTS "${REXGLUE_FIDELITYFX_SOURCE_DIR}/sd
         "${REXGLUE_FIDELITYFX_SOURCE_DIR}/ffx-api/include"
     )
     target_compile_definitions(rexui PRIVATE REX_HAS_FIDELITYFX_SDK=1)
+elseif(REXGLUE_UI_CAS_FSR1)
+    # CAS and FSR 1.0 (EASU + RCAS) are ordinary fragment shaders whose SPIR-V is already in
+    # src/ui/shaders, so they need neither the FidelityFX SDK nor its runtime (which has no arm64 backend).
+    # PUBLIC because the macro changes presenter.h, and every includer has to see the same class.
+    # FSR 2/3 stay unavailable: they need REX_HAS_FIDELITYFX_RUNTIME.
+    target_compile_definitions(rexui PUBLIC REX_HAS_FIDELITYFX_SDK=1)
 endif()
 
 set(REXUI_HAS_FIDELITYFX_RUNTIME OFF)

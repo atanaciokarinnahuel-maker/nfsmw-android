@@ -21,6 +21,7 @@ project(ReXGlue
 option(REXGLUE_BUILD_TESTS       "Build PPC instruction and unit tests" OFF)
 option(REXGLUE_ENABLE_SANITIZERS "Enable UndefinedBehaviorSanitizer" OFF)
 option(REXGLUE_ENABLE_FIDELITYFX "Enable optional AMD FidelityFX integration (experimental)" OFF)
+option(REXGLUE_UI_CAS_FSR1 "Presenter effects CAS and FSR 1.0 (plain shaders, without the FidelityFX runtime)" OFF)
 option(REXGLUE_ENABLE_TRACY                "Enable Tracy profiler integration" ON)
 option(REXGLUE_ENABLE_PERF_COUNTERS        "Enable lightweight perf counter registry and overlay" ON)
 option(REXGLUE_PLATFORM_SWITCH             "Build for Nintendo Switch (devkitA64 + libnx; set by the toolchain file)" OFF)

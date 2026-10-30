@@ -97,6 +97,20 @@ final class GameOptions {
                     new String[] {"apagado", "cine", "vivo", "calido", "frio", "sepia", "noir", "crt"},
                     new String[] {"Sin filtro", "Cine", "Vivo", "Cálido", "Frío", "Sepia", "Blanco y negro",
                             "CRT"}),
+            // The game's own yellow tint, desaturation and vignette (nfsmw_ajustes_graficos.cpp). The "Vivo"
+            // filter raises saturation, so with the original tint the image turns very yellow.
+            new Option("visual_tint", "Tono amarillo del juego", "nfsmw_tratamiento_visual", "original",
+                    new String[] {"original", "suave", "apagado"},
+                    new String[] {"Original · como la Xbox 360", "Suave · mitad de fuerza", "Apagado · sin tinte"}),
+            // Final presentation pass of the SDK (needs REXGLUE_UI_CAS_FSR1, which the Android build turns on).
+            // CAS sharpens when the game image has the screen's size and resamples when it does not; FSR 1.0
+            // upscales with EASU and sharpens with RCAS.
+            new Option("sharpen", "Nitidez y escalado", "present_effect", "bilinear",
+                    new String[] {"bilinear", "cas", "fsr"},
+                    new String[] {"Normal", "AMD CAS · nitidez", "AMD FSR 1.0 · escalado y nitidez"}),
+            new Option("sharpen_strength", "Fuerza de nitidez CAS", "present_cas_additional_sharpness", "0.0",
+                    new String[] {"0.0", "0.3", "0.6", "1.0"},
+                    new String[] {"Estándar", "Media", "Alta", "Máxima"}),
     };
 
     private static final String PREFS = "nfsmw_game";
