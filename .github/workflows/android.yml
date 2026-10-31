@@ -15,6 +15,10 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: android-actions/setup-android@v3
+        with:
+          # The default also installs the legacy "tools" package, which the current sdkmanager no longer
+          # offers ("Failed to find package 'tools'"), and the step fails before anything is built.
+          packages: 'platform-tools'
       - name: Install Android SDK components
         run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0' 'ndk;28.2.13676358' 'cmake;3.22.1'
       - name: Build ARM64 debug APK
